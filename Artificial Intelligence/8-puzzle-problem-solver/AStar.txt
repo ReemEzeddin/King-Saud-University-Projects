@@ -1,0 +1,30 @@
+
+       ArrayList<Integer> startState = new ArrayList<>();
+      // Comparator<String> comparator = new NodePriorityComparator();
+       PriorityQueue<String> pQ = new PriorityQueue<String>(100);
+       LinkedList<String> visited = new LinkedList<String>();
+       String current;
+       Puzzle8 puzzle = new Puzzle8();
+       puzzle.add(p, null);
+       int count=0;
+       pQ.add(p);
+       visited.add(p);
+       while(!puzzle.agenda.isEmpty()){
+           count++;
+           current = pQ.remove();
+           puzzle.up(current);
+           puzzle.down(current);
+           puzzle.left(current);
+           puzzle.right(current);
+           for(String P:puzzle.agenda){
+               if(P.equals(puzzle.GOAL_PUZZLE)){
+                   break;
+               }
+               else{
+                   if(!visited.contains(P)){
+                       visited.add(P);
+                       pQ.add(P);
+                   }
+               }
+           }
+       }

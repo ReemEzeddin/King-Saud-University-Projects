@@ -1,0 +1,18 @@
+//                    BFS  e = new BFS();              // New Instance of the EightPuzzle
+//                   e.add(Start_puzzle, null);                                                  // Add the Initial State
+//                   e.startTime= System.nanoTime();
+//                   while(!e.q_node.isEmpty()){
+//                       String currentState = e.q_node.remove();
+//                       e.up(currentState);                                       // Move the blank space up and add new state to queue
+//                       e.down(currentState);                                     // Move the blank space down
+//                       e.left(currentState);                                     // Move left
+//                       e.right(currentState);                          // Move right and remove the current node from Queue
+//                   }
+//                   System.out.println("Solution doesn't exist");             
+//                }
+//               else
+//               { 
+//                   System.out.println("Please Enter Puzzle");
+//                   System.exit(0);
+//               }
+               

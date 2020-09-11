@@ -1,0 +1,30 @@
+   Set<String> stateSets = new HashSet<String>();
+        int time = 0;
+        Node node = new Node(Start_puzzle);
+        node.startTime=0;
+        node.setTotalCost(0);
+        PriorityQueue<Node> nodePriorityQueue = new PriorityQueue<Node>(10);
+        Map<String,Integer> greedy= new HashMap<>();
+        Node currentNode = node;
+         while (!currentNode.getState().equals(Puzzle8.GOAL_PUZZLE)) {
+            stateSets.add(currentNode.getState());
+            List<String> nodeSuccessors = Node.getSuccessors(currentNode.getState());
+            if(h==Heuristic.H_ONE)
+                nodeSuccessors.forEach((child)->greedy.put(child, heuristicOne(child, Puzzle8.GOAL_PUZZLE)));
+            if(h==Heuristic.H_TWO)
+                 nodeSuccessors.forEach((child)->greedy.put(child, heuristicTwo(child, Puzzle8.GOAL_PUZZLE)));
+            Entry<String, Integer> min = null;
+            for (Entry<String, Integer> entry : greedy.entrySet()) {
+            if (min == null || min.getValue() > entry.getValue()) {
+                min=entry;
+            }     
+        }
+             Node child = new Node(min.getKey());
+                currentNode.addChild(child);
+                child.setParent(currentNode);
+                child.setTotalCost(currentNode.getTotalCost()+min.getValue());
+                nodePriorityQueue.add(child);
+                currentNode=child;
+            time += 1;
+    }
+            Node.printSolution(currentNode, stateSets, new Node(Start_puzzle), time);

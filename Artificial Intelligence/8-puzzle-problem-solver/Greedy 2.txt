@@ -1,0 +1,73 @@
+     // stateSet is a set that contains node that are already visited
+     ArrayList<Node> statesVisited = new ArrayList<Node>();
+     LinkedList<Node> openStates = new LinkedList<Node>();
+     ArrayList<String> solution = new ArrayList<String>();
+     long runTime = 0;
+     long startTime, endTime;
+     List<String> children = new ArrayList<String>();
+     Node currentState = null;
+     boolean solutionFound = false, stateVisited = false;
+     int nodeCounter = 0;
+     openStates.offer(new Node((Start_puzzle)));
+     startTime = System.nanoTime();
+     Node goalNode=new Node(Puzzle8.GOAL_PUZZLE);
+     while ( !openStates.isEmpty() && solutionFound == false )
+     {
+         currentState = openStates.poll();
+         nodeCounter++;
+         if ( currentState==goalNode)
+         {
+             solutionFound = true;
+             break;
+         }
+         children = Node.getSuccessors(currentState.getState());
+         for ( int i=0; i < children.size(); i++ )
+         {
+             Node child = new Node(children.get(i));
+             stateVisited = false;
+             for ( Node newNode : statesVisited ){
+                 if ( child.equals(newNode ) ) {
+                     stateVisited = true;
+                     break;
+                 }
+                 
+             }
+             for ( Node newNode : openStates ){
+                 if ( child.equals(newNode ) ) {
+                     stateVisited = true;
+                     break;
+                 }
+             }
+             if ( stateVisited != true ){
+                 boolean inserted = false;
+                 child.setTotalCost(heuristicOne(child.getState(), Puzzle8.GOAL_PUZZLE));
+                 for ( int j = 0; j < openStates.size(); j++ ){
+                     if ( child.getTotalCost()< openStates.get(j).getTotalCost()) {
+                         openStates.add( j, child);
+                         inserted = true;
+                         break;
+                     }
+                 }
+                 if ( inserted == false ) openStates.offer( child );
+                 
+             }
+         }
+         statesVisited.add( currentState );
+         openStates.remove( currentState );	
+     }
+     endTime = System.nanoTime();
+     runTime = (endTime - startTime) / 1000000;
+     if ( solutionFound == true ){
+         boolean pathFound = false;
+         solution.add(currentState.getState());
+         while ( pathFound == false ){
+             currentState = currentState.getParent();
+             solution.add( 0, currentState.getState());
+             if ( currentState.equals(goalNode)) pathFound = true;
+         }
+         
+     }
+     else // Solution wasn't found
+		{
+			System.out.println( "Could not find Solution :(" );
+		}
